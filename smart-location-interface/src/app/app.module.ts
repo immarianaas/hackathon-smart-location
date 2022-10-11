@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { EntityService } from './entity.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    EntityService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
