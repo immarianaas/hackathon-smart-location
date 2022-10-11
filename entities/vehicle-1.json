@@ -1,10 +1,25 @@
 {
-    "category": "public",
     "id": "vehicle-1",
-    "location": {
-        "coordinates": [ 40.64348458522166, -8.641592239438836 ],
-        "type": "Point"
-    },
     "type": "Vehicle",
-    "vehicleType": "bus"
+    "category": {
+        "type": "Text",
+        "value": "public",
+        "metadata": {}
+    },
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.64348458522166,
+                -8.641592239438836
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "vehicleType": {
+        "type": "Text",
+        "value": "bus",
+        "metadata": {}
+    }
 }

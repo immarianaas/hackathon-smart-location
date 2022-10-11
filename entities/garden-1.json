@@ -1,9 +1,20 @@
 {
     "id": "garden-1",
+    "type": "Garden",
     "location": {
-        "coordinates": [ 40.636789772657025, -8.653240176506381 ],
-        "type": "Point"
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.636789772657025,
+                -8.653240176506381
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
     },
-    "name": "Parque da Macaca",
-    "type": "Garden"
+    "name": {
+        "type": "Text",
+        "value": "Parque da Macaca",
+        "metadata": {}
+    }
 }

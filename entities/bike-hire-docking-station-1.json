@@ -1,10 +1,27 @@
 {
-    "availableBikeNumber": 10,
-    "freeSlotNumber": 5,
-    "totalSlotNumber": 15,
     "id": "bike-hire-docking-station-1",
+    "type": "BikeHireDockingStation",
+    "availableBikeNumber": {
+        "type": "Number",
+        "value": 10,
+        "metadata": {}
+    },
+    "freeSlotNumber": {
+        "type": "Number",
+        "value": 5,
+        "metadata": {}
+    },
+    "totalSlotNumber": {
+        "type": "Number",
+        "value": 15,
+        "metadata": {}
+    },
     "location": {
-        "coordinates": [ 40.64167176300576, -8.649658480528556 ],
-        "type": "Point"
+        "type": "geo:json",
+        "value": {
+            "type": "Point",
+            "coordinates": [ 40.64167176300576, -8.649658480528556 ]
+        },
+        "metadata": {}
     }
 }

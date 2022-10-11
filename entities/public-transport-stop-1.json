@@ -1,11 +1,30 @@
 {
     "id": "public-transport-stop-1",
+    "type": "PublicTransportStop",
     "location": {
-        "coordinates": [40.64112231200756, -8.647936826790524],
-        "type": "Point"
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.64112231200756,
+                -8.647936826790524
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
     },
-    "name": "Caçadores 10",
-    "peopleCount": 6,
-    "transportationType": 0,
-    "type": "PublicTransportStop"
+    "name": {
+        "type": "Text",
+        "value": "Caçadores 10",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 6,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
 }
