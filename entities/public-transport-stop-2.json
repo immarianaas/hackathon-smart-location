@@ -1,0 +1,11 @@
+{
+    "id": "public-transport-stop-2",
+    "location": {
+        "coordinates": [40.64405798918909, -8.639538080042799],
+        "type": "Point"
+    },
+    "name": "Terminal Rodoviário",
+    "peopleCount": 10,
+    "transportationType": 0,
+    "type": "PublicTransportStop"
+}

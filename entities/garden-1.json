@@ -1,0 +1,9 @@
+{
+    "id": "garden-1",
+    "location": {
+        "coordinates": [ 40.636789772657025, -8.653240176506381 ],
+        "type": "Point"
+    },
+    "name": "Parque da Macaca",
+    "type": "Garden"
+}

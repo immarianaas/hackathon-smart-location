@@ -1,0 +1,10 @@
+{
+    "category": "public",
+    "id": "vehicle-1",
+    "location": {
+        "coordinates": [ 40.64348458522166, -8.641592239438836 ],
+        "type": "Point"
+    },
+    "type": "Vehicle",
+    "vehicleType": "bus"
+}
