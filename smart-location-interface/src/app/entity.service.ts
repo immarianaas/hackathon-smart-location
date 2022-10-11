@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, merge, mergeWith, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BeachEntity } from './beach-entity';
+import { GardenEntity } from './garden-entity';
 import { Entity, EntityType } from './entity';
 import { EMPTY } from 'rxjs'
 
@@ -20,9 +21,8 @@ export class EntityService {
     return this.http.get<BeachEntity[]>( this.url + "?type=Beach");
   }
 
-  // Exemplo apenas; apagar
-  private getBeachEntities2(): Observable<Entity[]> {
-    return this.http.get<BeachEntity[]>( this.url + "?type=Beach");
+  private getGardenEntities(): Observable<Entity[]> {
+    return this.http.get<GardenEntity[]>( this.url + "?type=Garden");
   }
   
   getEntities( type : EntityType ): Observable<BeachEntity[] | Entity[]> {
@@ -42,7 +42,7 @@ export class EntityService {
 
     // aqui podemos juntar pedidos de vários tipos diferentes;
     // isto é apenas um exemplo
-    var b = this.getBeachEntities2() ;    
+    var b = this.getGardenEntities() ;    
     return merge( a, b );
   }
 }
