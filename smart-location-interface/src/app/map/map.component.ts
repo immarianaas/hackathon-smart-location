@@ -1,6 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { EntityService } from '../entity.service';
 import { BeachEntity } from '../beach-entity';
+import { GardenEntity } from '../garden-entity';
+import { VehicleEntity } from '../vehicle-entity';
+import { PublicTransportStopEntity } from '../public-transport-stop-entity';
+import { BikeLaneEntity } from '../bike-lane-entity';
+import { BikeHireDockingStationEntity } from '../bike-hire-docking-station-entity';
 import { EntityType } from '../entity';
 import * as L from 'leaflet';
 
@@ -35,11 +40,22 @@ export class MapComponent implements OnInit, AfterViewInit {
    */
 
   beaches: BeachEntity[];
+  gardens: GardenEntity[];
+  vehicles: VehicleEntity[];
+  bikeLanes: BikeLaneEntity[];
+  bikeHireDockingStations: BikeHireDockingStationEntity[];
+  publicTransportStops: PublicTransportStopEntity[];
+
 
   constructor(
     private entityService: EntityService
   ) {
     this.beaches = [];
+    this.gardens = [];
+    this.vehicles = [];
+    this.bikeLanes = [];
+    this.bikeHireDockingStations = [];
+    this.publicTransportStops = [];
   }
 
   ngOnInit(): void {
@@ -79,12 +95,27 @@ export class MapComponent implements OnInit, AfterViewInit {
             case "Beach": // TODO change to enum or smth
               this.beaches.push(<BeachEntity>e);
               break;
+            case "Garden":
+              this.gardens.push(<GardenEntity>e);
+              break;
+            case "Vehicle":
+              this.vehicles.push(<VehicleEntity>e);
+              break;
+            case "BikeLane":
+              this.bikeLanes.push(<BikeLaneEntity>e);
+              break;
+            case "BikeHireDockingStationEntity":
+              this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
+              break;
+            case "PublicTransportStop":
+              this.publicTransportStops.push(<PublicTransportStopEntity>e);
+              break;
           }
-
         });
 
 
         this.addBeachMarkers();
+        this.addGardenMarkers();
 
 
       },
@@ -95,11 +126,22 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private addGardenMarkers(): void {
+    this.gardens.forEach(b => {
+      const lat = b.location.value.coordinates[0];
+      const lon = b.location.value.coordinates[1];
+      console.log("garden" + b.name + "coordinates (", lat, ", ", lon, ")");
+      const marker = L.marker([lat, lon]);
+      marker.addTo(this.map);
+    })
+
+  }
+
   private addBeachMarkers(): void {
     this.beaches.forEach(b => {
       const lat = b.location.value.coordinates[0];
       const lon = b.location.value.coordinates[1];
-      console.log("coordinates (", lat, ", ", lon, ")");
+      console.log("beach " + b.name + "coordinates (", lat, ", ", lon, ")");
       const marker = L.marker([lat, lon]);
       marker.addTo(this.map);
     })

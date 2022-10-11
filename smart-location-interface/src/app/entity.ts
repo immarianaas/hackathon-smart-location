@@ -4,7 +4,7 @@ export interface Entity {
 }
 
 export enum EntityType {
-    BEACH,
+    BEACH,VEHICLE,PUBLIC_TRANSPORT_STOP,GARDEN,BIKE_LANE,BIKE_HIRE_DOCKING_STATION
 }
 
 export interface Location {
