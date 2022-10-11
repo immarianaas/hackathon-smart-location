@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity, Location } from "./entity";
 
 export interface BeachEntity extends Entity {
     name: {
