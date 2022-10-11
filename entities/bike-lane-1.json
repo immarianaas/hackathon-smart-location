@@ -1,6 +1,6 @@
 {
     "id": "bike-lane-1",
-    "type": "BikeLanes",
+    "type": "BikeLane",
     "laneOccupancy": {
         "type": "Number",
         "value": 4,
