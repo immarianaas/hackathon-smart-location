@@ -6,3 +6,9 @@ export interface Entity {
 export enum EntityType {
     BEACH,
 }
+
+export interface Location {
+    value: {
+        coordinates: number[];
+    }
+}
