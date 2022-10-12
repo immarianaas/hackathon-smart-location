@@ -1,6 +1,9 @@
 export interface Entity {
     id: string;
     type: string;
+    location: PointLocation | MultiPointLocation;
+
+    accessibility?: ACCESSIBILITY;
 }
 
 export enum EntityType {
@@ -10,6 +13,12 @@ export enum EntityType {
     GARDEN,
     BIKE_LANE,
     BIKE_HIRE_DOCKING_STATION
+}
+
+export enum ACCESSIBILITY {
+    LOW,
+    MEDIUM,
+    HIGH
 }
 
 export interface PointLocation {

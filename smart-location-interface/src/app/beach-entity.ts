@@ -6,5 +6,5 @@ export interface BeachEntity extends Entity {
     occupationRate: { value: string; };
     beachType: [{
         value: string;
-    }]
+    }];
 }

@@ -7,8 +7,9 @@ import { BikeLaneEntity } from './bike-lane-entity';
 import { BikeHireDockingStationEntity } from './bike-hire-docking-station-entity';
 import { PublicTransportStopEntity } from './public-transport-stop-entity';
 import * as L from 'leaflet';
-import { NEVER, Observable, of, throwError } from 'rxjs';
+import { interval, NEVER, Observable, of, takeWhile, throwError } from 'rxjs';
 import { stringify } from 'querystring';
+import { ACCESSIBILITY, Entity, PointLocation } from './entity';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -94,6 +95,8 @@ export class MarkerService {
     map: any
   ) {
     arr.forEach(e => {
+    this.evaluateAccessibility(e);
+
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
@@ -102,11 +105,77 @@ export class MarkerService {
     });
   }
 
+  private evaluateAccessibility( e: Entity ) : void {
+    // assuming we only have `PointLocation`
+    const lat = e.location.value.coordinates[0];
+    const lon = e.location.value.coordinates[1];
+
+    const publicTranspDistances = this.publicTransportStops.map( 
+      (value) => {
+        const lat1 = value.location.value.coordinates[0];
+        const lon1 = value.location.value.coordinates[1];
+        return this.distance( <number> lat, <number> lon, lat1, lon1);
+      });
+
+      
+    const bikeLanesDistances = this.bikeLanes.map(
+      (lane) => {
+        const distances = lane.location.value.coordinates.map(
+          (c) => {
+            const lat1 = c[0];
+            const lon1 = c[1];
+            return this.distance( <number> lat, <number> lon, lat1, lon1);
+          });
+          return Math.min( ...distances );
+      });
+
+    const minValue = Math.min( ...publicTranspDistances, ...bikeLanesDistances );
+    e.accessibility = this.getAccessibilityLevel( minValue );
+
+    console.log( "[evaluateAccessibility]", e.type, minValue, this.getAccessibilityLevel( minValue ) );
+  }
+
+  private getAccessibilityLevel( dist: number ) {
+    if ( dist <= 0.005 )
+      return ACCESSIBILITY.HIGH;
+    else if ( dist <= 0.015)
+      return ACCESSIBILITY.MEDIUM;
+    return ACCESSIBILITY.LOW;
+  }
+
+  private distance( x1: number, y1: number, x2: number, y2: number): number {
+    return Math.sqrt( Math.pow(x2-x1,2) + Math.pow(y2-y1,2) );
+  }
+
   private addAllMarkersInternal(map: any): void {
     this.addPointMarkers(this.beaches, map);
     this.addPointMarkers(this.gardens, map);
     this.addPointMarkers(this.bikeHireDockingStations, map);
     this.addPointMarkers(this.publicTransportStops, map);
     this.addPointMarkers(this.vehicles, map);
+
+    this.addLineMarkers(this.bikeLanes, map); // TODO
   }
+
+
+
+  // helper
+  private addLineMarkers(
+    arr: BikeLaneEntity[],
+    map: any
+  ) {
+    // TODO
+    /*
+    arr.forEach(e => {
+    this.evaluateAccessibility(e);
+
+      const lat = e.location.value.coordinates[0];
+      const lon = e.location.value.coordinates[1];
+      console.log("placing marker on coordinates (", lat, ", ", lon, ")");
+      const marker = L.marker([lat, lon]);
+      marker.addTo(map);
+    });
+    */
+  }
+
 }
