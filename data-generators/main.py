@@ -3,13 +3,15 @@ import requests
 import time
 import math
 
+# constants
 TIME_UPDATE = 1  # s
 ENTITY_ID = "vehicle-1"
-VELOCITY = 20  # km/h
+VELOCITY = 12.5  # km/h
 R = 6371e3  # metres
 DISTANCE_TRAVELLED = VELOCITY / 1000 * 3600 * TIME_UPDATE
 
 
+# calculate distance between 2 points in geo position
 def calc_dist(p1, p2):
     y1 = math.radians(p1[0] * math.pi / 180)  # φ, λ in radians
     y2 = math.radians(p2[0] * math.pi / 180)
@@ -24,6 +26,7 @@ def calc_dist(p1, p2):
     return R * c  # in metres
 
 
+# calculate the bearing (basically direction) between 2 geo positions
 def get_bearing_from_2_points(p1, p2):
     rlat1 = math.radians(p1[0])
     rlat2 = math.radians(p2[0])
@@ -37,6 +40,7 @@ def get_bearing_from_2_points(p1, p2):
     return (teta * 180 / math.pi + 360) % 360
 
 
+# get a point in that bearing (direction) after a certain distance
 def get_point_from_bearing(p1, bearing, d):
     rlat1 = math.radians(p1[0])
     rlon1 = math.radians(p1[1])
@@ -47,33 +51,31 @@ def get_point_from_bearing(p1, bearing, d):
                               math.cos(d / R) - math.sin(rlat1) * math.sin(lat2))
     return [math.degrees(lat2), ((math.degrees(lon2) + 540) % 360 - 180)]
 
-with open("../entities/public-transport-stop-1.json", "r") as f:
-    stop1 = json.loads(f.read())
 
-with open("../entities/public-transport-stop-2.json", "r") as f:
-    stop2 = json.loads(f.read())
+# get all stops
+req = requests.get("http://localhost:1026/v2/entities?type=PublicTransportStop")
 
-stop1_coords = stop1["location"]["value"]["coordinates"]
-stop2_coords = stop2["location"]["value"]["coordinates"]
+stop_list = []
+for stop in req.json():
+    stop_list.append(stop["location"]["value"]["coordinates"])
 
-stop_list = [stop1_coords, stop2_coords]
+# join with reverse list so it does the loop
 stop_list = stop_list + list(reversed(stop_list))
+print(stop_list)
 
-print(stop1_coords, stop2_coords, sep="\n")
-current_target = stop2_coords
-current_pos = stop1_coords
+# initializing stuff for the trip
+current_target = stop_list[1]
+current_pos = stop_list[0]
 stop_index = 1
-
 
 while True:
 
     distance_to_next_target = calc_dist(current_pos, current_target)
     brng = get_bearing_from_2_points(current_pos, current_target)
     new_pos = get_point_from_bearing(current_pos, brng, DISTANCE_TRAVELLED)
-
     distance_to_new_pos = calc_dist(current_pos, new_pos)
 
-    print(distance_to_new_pos, distance_to_next_target)
+    # if it surpasses next stop check for the one after
     while distance_to_new_pos > distance_to_next_target:
         current_pos = current_target
         stop_index += 1
@@ -83,11 +85,11 @@ while True:
         distance_to_next_target = calc_dist(current_pos, current_target)
         brng = get_bearing_from_2_points(current_pos, current_target)
         new_pos = get_point_from_bearing(current_pos, brng, DISTANCE_TRAVELLED)
-
         distance_to_new_pos = calc_dist(current_pos, new_pos)
 
     dc = {"location": {"value": {"coordinates": new_pos}}}
-    res = requests.patch(f"http://localhost:1026/v2/entities/{ENTITY_ID}/attrs", data=json.dumps(dc), headers={"Content-Type": "application/json"})
-    print(new_pos, stop_index, current_target)
+    res = requests.patch(f"http://localhost:1026/v2/entities/{ENTITY_ID}/attrs", data=json.dumps(dc),
+                         headers={"Content-Type": "application/json"})
+
     current_pos = new_pos
     time.sleep(TIME_UPDATE)
