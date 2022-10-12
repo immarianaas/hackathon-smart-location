@@ -37,7 +37,7 @@ export class EntityService {
     return this.http.get<PublicTransportStopEntity[]>( this.url + "?type=PublicTransportStop");
   }
   
-  private getVehicleEntities(): Observable<VehicleEntity[]> {
+  getVehicleEntities(): Observable<VehicleEntity[]> {
     return this.http.get<VehicleEntity[]>( this.url + "?type=Vehicle");
   }
 
