@@ -8,22 +8,7 @@ import { BikeLaneEntity } from '../bike-lane-entity';
 import { BikeHireDockingStationEntity } from '../bike-hire-docking-station-entity';
 import { EntityType } from '../entity';
 import * as L from 'leaflet';
-
-const iconRetinaUrl = 'assets/marker-icon-2x.png';
-const iconUrl = 'assets/marker-icon.png';
-const shadowUrl = 'assets/marker-shadow.png';
-const iconDefault = L.icon({
-  iconRetinaUrl,
-  iconUrl,
-  shadowUrl,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-L.Marker.prototype.options.icon = iconDefault;
-
+import { MarkerService } from '../marker.service';
 
 @Component({
   selector: 'app-map',
@@ -32,35 +17,15 @@ L.Marker.prototype.options.icon = iconDefault;
 })
 export class MapComponent implements OnInit, AfterViewInit {
 
-  /*
-   * NOTA: eu meti a logica de ir buscar dados aqui
-   * mas foi só como exemplo, temos de discutir como
-   * vamos organizar os componentes e definir qual fica 
-   * com essa responsabilidade
-   */
-
-  beaches: BeachEntity[];
-  gardens: GardenEntity[];
-  vehicles: VehicleEntity[];
-  bikeLanes: BikeLaneEntity[];
-  bikeHireDockingStations: BikeHireDockingStationEntity[];
-  publicTransportStops: PublicTransportStopEntity[];
-
 
   constructor(
-    private entityService: EntityService
+    private entityService: EntityService,
+    private markerService: MarkerService
   ) {
-    this.beaches = [];
-    this.gardens = [];
-    this.vehicles = [];
-    this.bikeLanes = [];
-    this.bikeHireDockingStations = [];
-    this.publicTransportStops = [];
   }
 
   ngOnInit(): void {
     this.initMap();
-    this.getAllEntities();
   }
 
   private map: any;
@@ -78,74 +43,12 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
 
     tiles.addTo(this.map);
+    this.markerService.addAllMarkers( this.map );
 
   }
 
   ngAfterViewInit(): void {
   }
 
-  private getAllEntities(): void {
-    // aqui vamos conseguir mapear qualquer tipo que "vier" para
-    // o array com o tipo correto
-    this.entityService.getAllEntities().subscribe({
-      next: (entities) => {
-        entities.forEach(e => {
-          // verify 'entities' type
-          switch (e.type) {
-            case "Beach": // TODO change to enum or smth
-              this.beaches.push(<BeachEntity>e);
-              break;
-            case "Garden":
-              this.gardens.push(<GardenEntity>e);
-              break;
-            case "Vehicle":
-              this.vehicles.push(<VehicleEntity>e);
-              break;
-            case "BikeLane":
-              this.bikeLanes.push(<BikeLaneEntity>e);
-              break;
-            case "BikeHireDockingStationEntity":
-              this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
-              break;
-            case "PublicTransportStop":
-              this.publicTransportStops.push(<PublicTransportStopEntity>e);
-              break;
-          }
-        });
-
-
-        this.addBeachMarkers();
-        this.addGardenMarkers();
-
-
-      },
-      error: (e) => {
-        console.log(e);
-      },
-      complete: () => console.log("done")
-    });
-  }
-
-  private addGardenMarkers(): void {
-    this.gardens.forEach(b => {
-      const lat = b.location.value.coordinates[0];
-      const lon = b.location.value.coordinates[1];
-      console.log("garden" + b.name + "coordinates (", lat, ", ", lon, ")");
-      const marker = L.marker([lat, lon]);
-      marker.addTo(this.map);
-    })
-
-  }
-
-  private addBeachMarkers(): void {
-    this.beaches.forEach(b => {
-      const lat = b.location.value.coordinates[0];
-      const lon = b.location.value.coordinates[1];
-      console.log("beach " + b.name + "coordinates (", lat, ", ", lon, ")");
-      const marker = L.marker([lat, lon]);
-      marker.addTo(this.map);
-    })
-
-  }
 
 }
