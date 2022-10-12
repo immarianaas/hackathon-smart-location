@@ -1,8 +1,8 @@
-import { Entity, Location } from "./entity";
+import { Entity, PointLocation } from "./entity";
 
 export interface BikeHireDockingStationEntity extends Entity {
-    availableBikeNumber: number,
-    freeSlotNumber: number,
-    totalSlotNumber: number,
-    location: Location
+    availableBikeNumber: { value: number };
+    freeSlotNumber: { value: number };
+    totalSlotNumber: { value: number };
+    location: PointLocation;
 }

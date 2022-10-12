@@ -1,6 +1,6 @@
-import { Entity, Location } from "./entity";
+import { Entity, MultiPointLocation } from "./entity";
 
 export interface BikeLaneEntity extends Entity {
-    laneOccupancy: number,
-    location:Location
+    laneOccupancy: { value: number };
+    location: MultiPointLocation;
 }

@@ -1,6 +1,6 @@
-import { Entity, Location } from "./entity";
+import { ACCESSIBILITY, Entity, PointLocation } from "./entity";
 
 export interface GardenEntity extends Entity {
-    location: Location,
-    name: string
+    location: PointLocation;
+    name: { value: string };
 }
