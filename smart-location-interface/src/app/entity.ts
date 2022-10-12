@@ -2,6 +2,7 @@ export interface Entity {
     id: string;
     type: string;
     location: PointLocation | MultiPointLocation;
+    iconPath: string;
 
     accessibility?: ACCESSIBILITY;
 }
