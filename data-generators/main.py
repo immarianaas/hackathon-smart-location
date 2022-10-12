@@ -4,11 +4,15 @@ import time
 import math
 
 # constants
-TIME_UPDATE = 1  # s
+TIME_UPDATE = 0.5  # s
 ENTITY_ID = "vehicle-1"
-VELOCITY = 12.5  # km/h
+VELOCITY = 12  # km/h
 R = 6371e3  # metres
 DISTANCE_TRAVELLED = VELOCITY / 1000 * 3600 * TIME_UPDATE
+
+
+
+
 
 
 # calculate distance between 2 points in geo position
@@ -59,8 +63,25 @@ stop_list = []
 for stop in req.json():
     stop_list.append(stop["location"]["value"]["coordinates"])
 
+
+url = f'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248faebf29e208141d9aef6d57d6f027be2&start={stop_list[0][1]},{stop_list[0][0]}&end={stop_list[1][1]},{stop_list[1][0]}'
+req = requests.get(url)
+print(req.json())
+r = req.json()
+print(r["features"][0]["geometry"]["coordinates"])
+stop_list = [(c[1], c[0]) for c in r["features"][0]["geometry"]["coordinates"]]
+
+url = f'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248faebf29e208141d9aef6d57d6f027be2&start={stop_list[1][1]},{stop_list[1][0]}&end={stop_list[0][1]},{stop_list[0][0]}'
+req = requests.get(url)
+print(req.json())
+r = req.json()
+print(r["features"][0]["geometry"]["coordinates"])
+stop_list += [(c[1], c[0]) for c in r["features"][0]["geometry"]["coordinates"]]
+
+with open("route.json", "w") as f:
+    f.write(json.dumps({"values": stop_list}))
 # join with reverse list so it does the loop
-stop_list = stop_list + list(reversed(stop_list))
+#stop_list = stop_list + list(reversed(stop_list))
 print(stop_list)
 
 # initializing stuff for the trip
