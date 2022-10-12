@@ -9,3 +9,5 @@ export const gardenPinYellow = "../assets/gardenPinYellow.svg"
 export const busPin = "../assets/busPin.svg"
 
 export const busStopPin = "../assets/busStopPin.svg"
+
+export const bikeHireDockingStationPin = "../assets/bikeHireDockingStationPin.svg"

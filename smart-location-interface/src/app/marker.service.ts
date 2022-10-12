@@ -76,7 +76,7 @@ export class MarkerService {
               this.bikeLanes.push(<BikeLaneEntity>e);
               break;
             case "BikeHireDockingStation":
-              e.iconPath = ""
+              e.iconPath = icons.bikeHireDockingStationPin
               this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
               break;
             case "PublicTransportStop":
