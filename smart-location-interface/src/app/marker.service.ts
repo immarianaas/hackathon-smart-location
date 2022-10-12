@@ -10,6 +10,7 @@ import * as L from 'leaflet';
 import { interval, NEVER, Observable, of, Subscription, takeWhile, throwError } from 'rxjs';
 import { stringify } from 'querystring';
 import { ACCESSIBILITY, Entity, PointLocation } from './entity';
+import * as icons from './icons';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -59,21 +60,27 @@ export class MarkerService {
           // verify 'entities' type
           switch (e.type) {
             case "Beach":
+              e.iconPath = this.selectBeachIcon(e)
               this.beaches.push(<BeachEntity>e);
               break;
             case "Garden":
+              e.iconPath = this.selectGardenIcon(e)
               this.gardens.push(<GardenEntity>e);
               break;
             case "Vehicle":
+              e.iconPath = icons.busPin
               this.vehicles.push(<VehicleEntity>e);
               break;
             case "BikeLane":
+              e.iconPath = ""
               this.bikeLanes.push(<BikeLaneEntity>e);
               break;
             case "BikeHireDockingStation":
+              e.iconPath = ""
               this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
               break;
             case "PublicTransportStop":
+              e.iconPath = icons.busStopPin
               this.publicTransportStops.push(<PublicTransportStopEntity>e);
               break;
           }
@@ -92,7 +99,7 @@ export class MarkerService {
   // helper
   private addPointMarkers(
     arr: BeachEntity[] | GardenEntity[] | BikeHireDockingStationEntity[] | PublicTransportStopEntity[] | VehicleEntity[],
-    map: any
+    map: any,
   ) {
     arr.forEach(e => {
       this.evaluateAccessibility(e);
@@ -100,9 +107,49 @@ export class MarkerService {
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
-      const marker = L.marker([lat, lon]);
+      let currentIcon;
+      if(e.iconPath == ''){
+        currentIcon = iconDefault
+      }
+      else{
+        currentIcon = L.icon({
+          iconUrl: e.iconPath,
+          //TODO:Should also differ
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+          tooltipAnchor: [16, -28],
+          shadowSize: [41, 41]
+      });
+      }
+
+      const marker = L.marker([lat, lon],{icon: currentIcon});
       marker.addTo(map);
     });
+  }
+
+  selectBeachIcon(e: Entity){
+    //helper
+    const value = e.accessibility
+      if(value == ACCESSIBILITY.HIGH){
+        return icons.beachPinGreen
+      }
+      else if(value == ACCESSIBILITY.MEDIUM){
+        return icons.beachPinYellow
+      }
+      return icons.beachPinRed
+  }
+
+  selectGardenIcon(e: Entity){
+    //helper
+    const value = e.accessibility
+      if(value == ACCESSIBILITY.HIGH){
+        return icons.gardenPinGreen
+      }
+      else if(value == ACCESSIBILITY.MEDIUM){
+        return icons.gardenPinYellow
+      }
+      return icons.gardenPinRed
   }
 
   vehicleMarkers : any[] = [];
