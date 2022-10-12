@@ -1,8 +1,8 @@
-import { Entity, Location } from "./entity";
+import { Entity, PointLocation } from "./entity";
 
 export interface PublicTransportStopEntity extends Entity {
-    location:Location,
-    name: string,
-    peopleCount: number,
-    transportationType: number
+    location: PointLocation;
+    name: { value: string };
+    peopleCount: {value: number };
+    transportationType: { value: number };
 }
