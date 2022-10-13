@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+.cluster-icon {
+    background-color: red;
+    size:1000px
+}
+
+.cluster-icon-html {
+    border-radius: 10px;
+    border: 4px darkmagenta solid;
+    padding:5px;
+
+    background-color: pink;
+    display: block;
+    width: max-content;
+}
