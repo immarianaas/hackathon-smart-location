@@ -13,9 +13,13 @@ import { ACCESSIBILITY, Entity, PointLocation } from './entity';
 import * as icons from './icons';
 
 const bikeLaneStroke = 5;
-const bikeLaneColor = '#50C878'
+const bikeLaneColorRed = '#880808'
+const bikeLaneColorYellow = '#FFD700'
+const bikeLaneColorGreen = '#50C878'
+
 const bikeLanePointLength = 50;
-const bikeLanePointColor = '#088F8F'
+const bikeLanePointColor = '#070606' 
+const bikeLaneColorFill = '#FFFDFA'
 
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
@@ -341,11 +345,20 @@ export class MarkerService {
         pointsArr.push(L.latLng({lat: point[0], lng: point[1]} ))
       })
       //Draw Start Point
-      const startPoint = L.circle(pointsArr[0],{fill: true, color: bikeLanePointColor,radius: bikeLanePointLength})
+      const startPoint = L.circle(pointsArr[0],{fill: true, fillOpacity: 1,fillColor:bikeLaneColorFill, color: bikeLanePointColor,radius: bikeLanePointLength})
       //Draw End Point
-      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true,color: bikeLanePointColor,radius: bikeLanePointLength})
+      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true, fillOpacity: 1,fillColor:bikeLaneColorFill, color: bikeLanePointColor,radius: bikeLanePointLength})
       //Draw Line
-      const path = L.polyline(pointsArr, {color: bikeLaneColor, weight: bikeLaneStroke})
+      let laneColor;
+      if(e.laneOccupancy.value > 5){
+        laneColor = bikeLaneColorRed
+      }
+      else if(e.laneOccupancy.value > 2){
+        laneColor = bikeLaneColorYellow
+      }
+      else laneColor = bikeLaneColorGreen
+      
+      const path = L.polyline(pointsArr, {color: laneColor, weight: bikeLaneStroke})
       path.addTo(map);
       startPoint.addTo(map);
       endPoint.addTo(map);
