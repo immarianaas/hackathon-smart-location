@@ -18,7 +18,7 @@ const bikeLaneColorYellow = '#FFD700'
 const bikeLaneColorGreen = '#50C878'
 
 const bikeLanePointLength = 50;
-const bikeLanePointColor = '#070606' 
+const bikeLanePointColor = '#070606'
 const bikeLaneColorFill = '#FFFDFA'
 
 
@@ -87,7 +87,7 @@ export class MarkerService {
         var count = 0;
         markers.forEach((c) => {
           if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Beach') {
-            ++nBeaches;  
+            ++nBeaches;
             ++count;
             sumAccessibility += (MarkerService.idEntityMap.get(c.options.alt)?.accessibility == undefined)
             ? 0
@@ -311,13 +311,6 @@ export class MarkerService {
   }
 
   private addAllMarkersInternal(map: any): void {
-    if (!(this.beaches.length > 0
-      && this.gardens.length > 0
-      && this.bikeHireDockingStations.length > 0
-      && this.publicTransportStops.length > 0
-      && this.vehicles.length > 0
-      && this.bikeLanes.length > 0))
-      return;
 
     this.addPointMarkers(this.beaches, map);
     this.addPointMarkers(this.gardens, map);
@@ -357,7 +350,7 @@ export class MarkerService {
         laneColor = bikeLaneColorYellow
       }
       else laneColor = bikeLaneColorGreen
-      
+
       const path = L.polyline(pointsArr, {color: laneColor, weight: bikeLaneStroke})
       path.addTo(map);
       startPoint.addTo(map);
