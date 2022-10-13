@@ -109,10 +109,10 @@ export class MarkerService {
         console.error("HELPPP", sumAccessibility / count);
         const iconstr = '<fa-icon icon="coffee"></fa-icon>'
 
-        const gardenStr = `<div><span class="badge badge-light">` + nGardens + `</span> gardens </div>`
-        const beachesStr = `<div><span class="badge badge-light">` + nBeaches + `</span> beaches </div>`
-        const busStopStr = `<div><span class="badge badge-light">` + nBusStops + `</span> public transport stops </div>`
-        const bikeHiringStr = `<div><span class="badge badge-light">` + nBikeHireDockingStation + `</span> bike hire docking station </div>`
+        const gardenStr = `<div><span class="badge badge-light">` + nGardens + `</span> <img src="${icons.gardenIcon}" style=" width: 25px; height: 41px;"></div>`
+        const beachesStr = `<div><span class="badge badge-light">` + nBeaches + `</span> <img src="${icons.beachIcon}" style=" width: 25px; height: 41px;"> </div>`
+        const busStopStr = `<div><span class="badge badge-light">` + nBusStops + `</span> <img src="${icons.busStopIcon}" style=" width: 25px; height: 41px;"></div>`
+        const bikeHiringStr = `<div><span class="badge badge-light">` + nBikeHireDockingStation + `</span> <img src="${icons.bikeHireDockingStationIcon}" style=" width: 25px; height: 41px;"></div>`
 
         const str = ((nGardens > 0) ? gardenStr : '')
           + ((nBeaches > 0) ? beachesStr : '')
@@ -123,7 +123,7 @@ export class MarkerService {
         return L.divIcon({
           // html: '<div>' + iconstr + '</div>' + '<button type="button" class="btn btn-primary" style="border-radius: 30%;">' + str + '</button>',
           // html: '<div class="cluster-icon-html">     ' + str + '</div>',
-          html: '<div class="cluster-icon-html">     ' + str + '</div>',
+          html: `<div class="cluster-icon-html">${str}</div>`,
           iconAnchor: [5, 5],
           className: 'cluster-icon'
         });
