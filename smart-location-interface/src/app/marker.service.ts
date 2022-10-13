@@ -12,6 +12,10 @@ import { stringify } from 'querystring';
 import { ACCESSIBILITY, Entity, PointLocation } from './entity';
 import * as icons from './icons';
 
+const bikeLaneStroke = 5;
+const bikeLaneColor = '#50C878'
+const bikeLanePointLength = 50;
+const bikeLanePointColor = '#088F8F'
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
 const shadowUrl = 'assets/marker-shadow.png';
@@ -242,6 +246,22 @@ export class MarkerService {
     arr: BikeLaneEntity[],
     map: any
   ) {
+    arr.forEach(e => {
+      let pointsArr: L.LatLng[] = []
+      e.location.value.coordinates.forEach(point => {
+        pointsArr.push(L.latLng({lat: point[0], lng: point[1]} ))
+      })
+      //Draw Start Point
+      const startPoint = L.circle(pointsArr[0],{fill: true, color: bikeLanePointColor,radius: bikeLanePointLength})
+      //Draw End Point
+      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true,color: bikeLanePointColor,radius: bikeLanePointLength})
+      //Draw Line
+      const path = L.polyline(pointsArr, {color: bikeLaneColor, weight: bikeLaneStroke})
+      path.addTo(map);
+      startPoint.addTo(map);
+      endPoint.addTo(map);
+
+    })
     // TODO
     /*
     arr.forEach(e => {
