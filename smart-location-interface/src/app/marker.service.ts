@@ -139,6 +139,8 @@ export class MarkerService {
           // verify 'entities' type
           switch (e.type) {
             case "Beach":
+              // set popup content
+              e.popupContent = this.setPopupBeach(e as BeachEntity)
               // icon is set later
               this.beaches.push(<BeachEntity>e);
               break;
@@ -209,9 +211,23 @@ export class MarkerService {
       // const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.type });
       const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.id });
 
+      //Popup
+      marker.bindPopup(e.popupContent).openPopup();
+
       this.markerClusters.addLayer(marker);
       // marker.addTo(map);
     });
+  }
+
+  setPopupBeach(e: BeachEntity) {
+    let beachType = e.beachType[0] == null ? '' : e.beachType[0].value
+    let name = e.name.value == null ? '' : e.name.value
+    let occupationRate = e.occupationRate.value == null ? '' : e.occupationRate.value
+    return `
+    <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
+    <div>Type of Beach:${beachType}</div>
+    <div>Occupation Rate:${occupationRate}</div>
+    `
   }
 
   selectBeachIcon(e: Entity) {

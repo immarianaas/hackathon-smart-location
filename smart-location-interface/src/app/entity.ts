@@ -3,6 +3,7 @@ export interface Entity {
     type: string;
     location: PointLocation | MultiPointLocation;
     iconPath: string;
+    popupContent: string;
 
     accessibility?: ACCESSIBILITY;
 }
