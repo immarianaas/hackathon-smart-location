@@ -17,7 +17,7 @@ const bikeLaneColorRed = '#880808'
 const bikeLaneColorYellow = '#FFD700'
 const bikeLaneColorGreen = '#50C878'
 
-const bikeLanePointLength = 50;
+const bikeLanePointLength = 20;
 const bikeLanePointColor = '#070606' 
 const bikeLaneColorFill = '#FFFDFA'
 
@@ -140,6 +140,7 @@ export class MarkerService {
           className: 'cluster-icon'
         });
       },
+      maxClusterRadius: 60,
     });
   }
 
@@ -151,26 +152,32 @@ export class MarkerService {
           // verify 'entities' type
           switch (e.type) {
             case "Beach":
-              // icon is set later
+              e.shadowPath = ((<BeachEntity>e).occupationRate.value == "high") ? icons.threeIcon : ((<BeachEntity>e).occupationRate.value == "medium") ? icons.twoIcon : icons.oneIcon;
               this.beaches.push(<BeachEntity>e);
               break;
             case "Garden":
-              // icon is set later
+              // right now does not have adequate attribute to do the following
+              // e.shadowPath = ((<BeachEntity>e).occupationRate.value == "high") ? icons.threeIcon : ((<BeachEntity>e).occupationRate.value == "medium") ? icons.twoIcon : icons.oneIcon;
+              e.shadowPath = ""
               this.gardens.push(<GardenEntity>e);
               break;
             case "Vehicle":
+              e.shadowPath = ""
               e.iconPath = icons.busPin
               this.vehicles.push(<VehicleEntity>e);
               break;
             case "BikeLane":
+              e.shadowPath = ""
               e.iconPath = ""
               this.bikeLanes.push(<BikeLaneEntity>e);
               break;
             case "BikeHireDockingStation":
+              e.shadowPath = ""
               e.iconPath = icons.bikeHireDockingStationPin
               this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
               break;
             case "PublicTransportStop":
+              e.shadowPath = ((<PublicTransportStopEntity>e).peopleCount.value < 4) ? icons.oneIcon : ((<PublicTransportStopEntity>e).peopleCount.value < 9) ? icons.twoIcon : icons.oneIcon;
               e.iconPath = icons.busStopPin
               this.publicTransportStops.push(<PublicTransportStopEntity>e);
               break;
@@ -203,14 +210,16 @@ export class MarkerService {
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
       let currentIcon;
+      
       if (e.iconPath == '') {
         currentIcon = iconDefault
       }
       else {
         currentIcon = L.icon({
           iconUrl: e.iconPath,
-          //TODO:Should also differ
-          iconSize: [25, 41],
+          shadowUrl: e.shadowPath,// icons.oneIcon ,
+          shadowAnchor: [0,25],
+          iconSize: [30, 45],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
