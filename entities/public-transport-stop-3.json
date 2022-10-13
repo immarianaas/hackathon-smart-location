@@ -1,4 +1,3 @@
-
 {
     "id": "public-transport-stop-3",
     "type": "PublicTransportStop",
@@ -6,8 +5,8 @@
         "type": "geo:json",
         "value": {
             "coordinates": [
-                40,6433598,
-                -8,6450916
+                40.6433598,
+                -8.6450916
             ],
             "type": "Point"
         },

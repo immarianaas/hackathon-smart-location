@@ -5,8 +5,8 @@
         "type": "geo:json",
         "value": {
             "coordinates": [
-                40,6307010,
-                -8,6533781
+                40.6307010,
+                -8.6533781
             ],
             "type": "Point"
         },
