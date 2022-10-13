@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-7",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40,6349818,
+                -8,6569545
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "UNIVERSIDADE - ANTIGA REITORIA A",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 10,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}

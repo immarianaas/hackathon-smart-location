@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-5",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40,6408933,
+                -8,6529873
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "CAÇADORES 10 - MISERICÓRDIA",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 10,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}

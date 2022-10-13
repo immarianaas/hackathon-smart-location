@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-3",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.6429,
+                -8.64751
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "AV. DR. LOURENÇO PEIXINHO - OITA B",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 10,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}
