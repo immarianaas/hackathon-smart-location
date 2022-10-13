@@ -7,6 +7,7 @@ import { BikeLaneEntity } from './bike-lane-entity';
 import { BikeHireDockingStationEntity } from './bike-hire-docking-station-entity';
 import { PublicTransportStopEntity } from './public-transport-stop-entity';
 import * as L from 'leaflet';
+import * as LMC from 'leaflet.markercluster';
 import { interval, NEVER, Observable, of, Subscription, takeWhile, throwError } from 'rxjs';
 import { stringify } from 'querystring';
 import { ACCESSIBILITY, Entity, PointLocation } from './entity';
@@ -170,7 +171,17 @@ export class MarkerService {
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
-      const marker = L.marker([lat, lon]);
+
+      const currentIcon = L.icon({
+        iconUrl: icons.busPin,
+        iconSize: [30, 50],
+        iconAnchor: [15, 30],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+        shadowSize: [41, 41]
+    });
+
+      const marker = L.marker([lat, lon],{icon: currentIcon});
       this.vehicleMarkers.push( marker );
       marker.addTo(map);
     });
