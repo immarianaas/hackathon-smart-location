@@ -13,9 +13,13 @@ import { ACCESSIBILITY, Entity, PointLocation } from './entity';
 import * as icons from './icons';
 
 const bikeLaneStroke = 5;
-const bikeLaneColor = '#50C878'
+const bikeLaneColorRed = '#880808'
+const bikeLaneColorYellow = '#FFD700'
+const bikeLaneColorGreen = '#50C878'
+
 const bikeLanePointLength = 50;
-const bikeLanePointColor = '#088F8F'
+const bikeLanePointColor = '#070606'
+const bikeLaneColorFill = '#FFFDFA'
 
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
@@ -83,7 +87,7 @@ export class MarkerService {
         var count = 0;
         markers.forEach((c) => {
           if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Beach') {
-            ++nBeaches;  
+            ++nBeaches;
             ++count;
             sumAccessibility += (MarkerService.idEntityMap.get(c.options.alt)?.accessibility == undefined)
             ? 0
@@ -109,10 +113,10 @@ export class MarkerService {
         console.error("HELPPP", sumAccessibility / count);
         const iconstr = '<fa-icon icon="coffee"></fa-icon>'
 
-        const gardenStr = `<div><span class="badge badge-light">` + nGardens + `</span> gardens </div>`
-        const beachesStr = `<div><span class="badge badge-light">` + nBeaches + `</span> beaches </div>`
-        const busStopStr = `<div><span class="badge badge-light">` + nBusStops + `</span> public transport stops </div>`
-        const bikeHiringStr = `<div><span class="badge badge-light">` + nBikeHireDockingStation + `</span> bike hire docking station </div>`
+        const gardenStr = `<div><span class="badge badge-light">` + nGardens + `</span> <img src="${icons.gardenIcon}" style=" width: 25px; height: 41px;margin: 5px;"></div>`
+        const beachesStr = `<div><span class="badge badge-light">` + nBeaches + `</span> <img src="${icons.beachIcon}" style=" width: 25px; height: 41px;margin: 5px;"> </div>`
+        const busStopStr = `<div><span class="badge badge-light">` + nBusStops + `</span> <img src="${icons.busStopIcon}" style=" width: 25px; height: 41px;margin: 5px;"></div>`
+        const bikeHiringStr = `<div><span class="badge badge-light">` + nBikeHireDockingStation + `</span> <img src="${icons.bikeHireDockingStationIcon}" style=" width: 25px; height: 41px;margin: 5px;"></div>`
 
         const str = ((nGardens > 0) ? gardenStr : '')
           + ((nBeaches > 0) ? beachesStr : '')
@@ -123,7 +127,7 @@ export class MarkerService {
         return L.divIcon({
           // html: '<div>' + iconstr + '</div>' + '<button type="button" class="btn btn-primary" style="border-radius: 30%;">' + str + '</button>',
           // html: '<div class="cluster-icon-html">     ' + str + '</div>',
-          html: '<div class="cluster-icon-html">     ' + str + '</div>',
+          html: `<div class="cluster-icon-html">${str}</div>`,
           iconAnchor: [5, 5],
           className: 'cluster-icon'
         });
@@ -307,13 +311,6 @@ export class MarkerService {
   }
 
   private addAllMarkersInternal(map: any): void {
-    if (!(this.beaches.length > 0
-      && this.gardens.length > 0
-      && this.bikeHireDockingStations.length > 0
-      && this.publicTransportStops.length > 0
-      && this.vehicles.length > 0
-      && this.bikeLanes.length > 0))
-      return;
 
     this.addPointMarkers(this.beaches, map);
     this.addPointMarkers(this.gardens, map);
@@ -341,11 +338,20 @@ export class MarkerService {
         pointsArr.push(L.latLng({lat: point[0], lng: point[1]} ))
       })
       //Draw Start Point
-      const startPoint = L.circle(pointsArr[0],{fill: true, color: bikeLanePointColor,radius: bikeLanePointLength})
+      const startPoint = L.circle(pointsArr[0],{fill: true, fillOpacity: 1,fillColor:bikeLaneColorFill, color: bikeLanePointColor,radius: bikeLanePointLength})
       //Draw End Point
-      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true,color: bikeLanePointColor,radius: bikeLanePointLength})
+      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true, fillOpacity: 1,fillColor:bikeLaneColorFill, color: bikeLanePointColor,radius: bikeLanePointLength})
       //Draw Line
-      const path = L.polyline(pointsArr, {color: bikeLaneColor, weight: bikeLaneStroke})
+      let laneColor;
+      if(e.laneOccupancy.value > 5){
+        laneColor = bikeLaneColorRed
+      }
+      else if(e.laneOccupancy.value > 2){
+        laneColor = bikeLaneColorYellow
+      }
+      else laneColor = bikeLaneColorGreen
+
+      const path = L.polyline(pointsArr, {color: laneColor, weight: bikeLaneStroke})
       path.addTo(map);
       startPoint.addTo(map);
       endPoint.addTo(map);
