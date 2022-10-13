@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-6",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.6383755,
+                -8.6518337
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "AV. DE SANTA JOANA B",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 10,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}

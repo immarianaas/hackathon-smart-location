@@ -6,6 +6,7 @@ export interface Entity {
     popupContent: string;
 
     accessibility?: ACCESSIBILITY;
+    shadowPath: string;
 }
 
 export enum EntityType {

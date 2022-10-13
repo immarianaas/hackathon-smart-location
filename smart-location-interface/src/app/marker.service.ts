@@ -13,9 +13,13 @@ import { ACCESSIBILITY, Entity, PointLocation } from './entity';
 import * as icons from './icons';
 
 const bikeLaneStroke = 5;
-const bikeLaneColor = '#50C878'
-const bikeLanePointLength = 50;
-const bikeLanePointColor = '#088F8F'
+const bikeLaneColorRed = '#880808'
+const bikeLaneColorYellow = '#FFD700'
+const bikeLaneColorGreen = '#50C878'
+
+const bikeLanePointLength = 20;
+const bikeLanePointColor = '#070606' 
+const bikeLaneColorFill = '#FFFDFA'
 
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
@@ -78,23 +82,25 @@ export class MarkerService {
         var nBeaches = 0;
         var nBusStops = 0;
         var nBikeHireDockingStation = 0;
+        var nVehicles = 0;
+        var nBikeLanes= 0;
 
         var sumAccessibility = 0;
         var count = 0;
         markers.forEach((c) => {
           if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Beach') {
-            ++nBeaches;  
+            ++nBeaches;
             ++count;
             sumAccessibility += (MarkerService.idEntityMap.get(c.options.alt)?.accessibility == undefined)
-            ? 0
-            : <number>MarkerService.idEntityMap.get(c.options.alt)?.accessibility;
+              ? 0
+              : <number>MarkerService.idEntityMap.get(c.options.alt)?.accessibility;
           }
           else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Garden') {
             ++nGardens;
             ++count;
             sumAccessibility += (MarkerService.idEntityMap.get(c.options.alt)?.accessibility == undefined)
-            ? 0
-            : <number>MarkerService.idEntityMap.get(c.options.alt)?.accessibility;
+              ? 0
+              : <number>MarkerService.idEntityMap.get(c.options.alt)?.accessibility;
           }
           else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'PublicTransportStop') {
             ++nBusStops;
@@ -102,32 +108,39 @@ export class MarkerService {
           else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'BikeHireDockingStation') {
             ++nBikeHireDockingStation;
           }
+          else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Vehicle') {
+            ++nVehicles;
+          }
 
 
-        });
+          });
 
-        console.error("HELPPP", sumAccessibility / count);
-        const iconstr = '<fa-icon icon="coffee"></fa-icon>'
+        const access = Math.round(sumAccessibility / count);
+        const colour = (access == 0) ? '#e84258' : (access == 1) ? '#fee191' : '#b0d8a4';
 
-        const gardenStr = `<div><span class="badge badge-light">` + nGardens + `</span> gardens </div>`
-        const beachesStr = `<div><span class="badge badge-light">` + nBeaches + `</span> beaches </div>`
-        const busStopStr = `<div><span class="badge badge-light">` + nBusStops + `</span> public transport stops </div>`
-        const bikeHiringStr = `<div><span class="badge badge-light">` + nBikeHireDockingStation + `</span> bike hire docking station </div>`
+        console.error(colour)
+
+        const gardenStr = `<div><span style="font-size:15px" class="badge badge-light">` + nGardens + `</span><img src="${icons.gardenIcon}" style=" width: 20px; height: 31px;margin: 5px;margin-left:10px"></div>`
+        const beachesStr = `<div><span style="font-size:15px" class="badge badge-light">` + nBeaches + `</span><img src="${icons.beachIcon}" style=" width: 25px; height: 41px;margin-left: 10px;margin-right:5px"></div>`
+        const busStopStr = `<div><span style="font-size:15px" class="badge badge-light">` + nBusStops + `</span><img src="${icons.busStopIcon}" style=" width: 30px; height: 30px;margin: 5px;"></div>`
+        const bikeHiringStr = `<div><span style="font-size:15px" class="badge badge-big badge-light">` + nBikeHireDockingStation + `</span> <img src="${icons.bikeHireDockingStationIcon}" style=" width: 20px; height: 30px;margin: 5px;"></div>`
+        const vehicleStr = `<div><span style="font-size:15px" class="badge badge-big badge-light">` + nVehicles + `</span> <img src="${icons.busPin}" style=" width: 20px; height: 30px;margin: 5px;"></div>`
 
         const str = ((nGardens > 0) ? gardenStr : '')
           + ((nBeaches > 0) ? beachesStr : '')
           + ((nBusStops > 0) ? busStopStr : '')
-          + ((nBikeHireDockingStation > 0) ? bikeHiringStr : '');
-
+          + ((nBikeHireDockingStation > 0) ? bikeHiringStr : '')
+          + ((nVehicles > 0) ? vehicleStr : '');
         // return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
         return L.divIcon({
           // html: '<div>' + iconstr + '</div>' + '<button type="button" class="btn btn-primary" style="border-radius: 30%;">' + str + '</button>',
           // html: '<div class="cluster-icon-html">     ' + str + '</div>',
-          html: '<div class="cluster-icon-html">     ' + str + '</div>',
-          iconAnchor: [5, 5],
+          html: `<div class="cluster-icon-html" style="background: ${colour}">${str}</div>`,
+          iconAnchor: [40, 40],
           className: 'cluster-icon'
         });
       },
+      maxClusterRadius: 60,
     });
   }
 
@@ -141,34 +154,40 @@ export class MarkerService {
             case "Beach":
               // set popup content
               e.popupContent = this.setPopupBeach(e as BeachEntity)
-              // icon is set later
+              e.shadowPath = ((<BeachEntity>e).occupationRate.value == "high") ? icons.threeIcon : ((<BeachEntity>e).occupationRate.value == "medium") ? icons.twoIcon : icons.oneIcon;
               this.beaches.push(<BeachEntity>e);
               break;
             case "Garden":
               // set popup content
               e.popupContent = this.setPopupGarden(e as GardenEntity)
-              // icon is set later
+              // right now does not have adequate attribute to do the following
+              // e.shadowPath = ((<BeachEntity>e).occupationRate.value == "high") ? icons.threeIcon : ((<BeachEntity>e).occupationRate.value == "medium") ? icons.twoIcon : icons.oneIcon;
+              e.shadowPath = ""
               this.gardens.push(<GardenEntity>e);
               break;
             case "Vehicle":
               // set popup content
               e.popupContent = this.setPopupVehicle(e as VehicleEntity)
+              e.shadowPath = ""
               e.iconPath = icons.busPin
               this.vehicles.push(<VehicleEntity>e);
               break;
             case "BikeLane":
+              e.shadowPath = ""
               e.iconPath = ""
               this.bikeLanes.push(<BikeLaneEntity>e);
               break;
             case "BikeHireDockingStation":
               // set popup content
               e.popupContent = this.setPopupBikeHireDockingStation(e as BikeHireDockingStationEntity)
+              e.shadowPath = ""
               e.iconPath = icons.bikeHireDockingStationPin
               this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
               break;
             case "PublicTransportStop":
               // set popup content
               e.popupContent = this.setPopupPublicTransportStop(e as PublicTransportStopEntity)
+              e.shadowPath = ((<PublicTransportStopEntity>e).peopleCount.value < 4) ? icons.oneIcon : ((<PublicTransportStopEntity>e).peopleCount.value < 9) ? icons.twoIcon : icons.oneIcon;
               e.iconPath = icons.busStopPin
               this.publicTransportStops.push(<PublicTransportStopEntity>e);
               break;
@@ -201,14 +220,16 @@ export class MarkerService {
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
       let currentIcon;
+      
       if (e.iconPath == '') {
         currentIcon = iconDefault
       }
       else {
         currentIcon = L.icon({
           iconUrl: e.iconPath,
-          //TODO:Should also differ
-          iconSize: [25, 41],
+          shadowUrl: e.shadowPath,// icons.oneIcon ,
+          shadowAnchor: [0,25],
+          iconSize: [30, 45],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
@@ -324,7 +345,8 @@ export class MarkerService {
       //Popup
       marker.bindTooltip(e.popupContent).openPopup();
       this.vehicleMarkers.push(marker);
-      marker.addTo(map);
+      this.markerClusters.addLayer(marker);
+      // marker.addTo(map);
     });
   }
 
@@ -385,7 +407,7 @@ export class MarkerService {
     this.addPointMarkers(this.publicTransportStops, map);
     this.addMovingPointMarkers(this.vehicles, map);
 
-    this.addLineMarkers(this.bikeLanes, map); // TODO
+    this.addLineMarkers(this.bikeLanes, map);
 
     map.addLayer(this.markerClusters);
     this.setupVehicleUpdates(map);
@@ -402,31 +424,30 @@ export class MarkerService {
     arr.forEach(e => {
       let pointsArr: L.LatLng[] = []
       e.location.value.coordinates.forEach(point => {
-        pointsArr.push(L.latLng({lat: point[0], lng: point[1]} ))
+        pointsArr.push(L.latLng({ lat: point[0], lng: point[1] }))
       })
       //Draw Start Point
-      const startPoint = L.circle(pointsArr[0],{fill: true, color: bikeLanePointColor,radius: bikeLanePointLength})
+      const startPoint = L.circle(pointsArr[0],{fill: true, fillOpacity: 1,fillColor:bikeLaneColorFill, color: bikeLanePointColor,radius: bikeLanePointLength})
       //Draw End Point
-      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true,color: bikeLanePointColor,radius: bikeLanePointLength})
+      const endPoint = L.circle(pointsArr[pointsArr.length-1],{fill: true, fillOpacity: 1,fillColor:bikeLaneColorFill, color: bikeLanePointColor,radius: bikeLanePointLength})
       //Draw Line
-      const path = L.polyline(pointsArr, {color: bikeLaneColor, weight: bikeLaneStroke})
-      path.addTo(map);
+      let laneColor;
+      if(e.laneOccupancy.value > 5){
+        laneColor = bikeLaneColorRed
+      }
+      else if(e.laneOccupancy.value > 2){
+        laneColor = bikeLaneColorYellow
+      }
+      else laneColor = bikeLaneColorGreen
+      
+      const path = L.polyline(pointsArr, {color: laneColor, weight: bikeLaneStroke})
+      //path.addTo(map);
+      this.markerClusters.addLayer(path);
+
       startPoint.addTo(map);
       endPoint.addTo(map);
 
     })
-    // TODO
-    /*
-    arr.forEach(e => {
-    this.evaluateAccessibility(e);
-
-      const lat = e.location.value.coordinates[0];
-      const lon = e.location.value.coordinates[1];
-      console.log("placing marker on coordinates (", lat, ", ", lon, ")");
-      const marker = L.marker([lat, lon]);
-      marker.addTo(map);
-    });
-    */
   }
 
 
@@ -440,7 +461,8 @@ export class MarkerService {
             this.vehicles = [];
 
             this.vehicleMarkers.forEach((marker) => {
-              marker.removeFrom(map);
+              marker.removeFrom(this.markerClusters);
+              // marker.removeFrom(map);
             });
 
             vehicles.forEach(v => {

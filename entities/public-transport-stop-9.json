@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-9",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.6307010,
+                -8.6533781
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "ISCAUA A",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 10,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}
