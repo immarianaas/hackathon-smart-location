@@ -60,23 +60,6 @@ def get_point_from_bearing(p1, bearing, d):
 with open("route.json", "r") as f:
     stop_list = json.loads(f.read())["values"]
 
-req = requests.get("http://localhost:1026/v2/entities?type=PublicTransportStop")
-stop_list_new = []
-for stop in req.json():
-    stop_list_new.append(stop["location"]["value"]["coordinates"])
-
-stop_list = []
-for i in range(0, len(stop_list_new)-1):
-    url = f'https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248faebf29e208141d9aef6d57d6f027be2&start={stop_list_new[i][1]},{stop_list_new[i][0]}&end={stop_list_new[i + 1][1]},{stop_list_new[i + 1][0]}'
-    req = requests.get(url)
-    r = req.json()
-    stop_list += [(c[1], c[0]) for c in r["features"][0]["geometry"]["coordinates"]]
-
-stop_list = stop_list + list(reversed(stop_list))
-
-with open("route.json", "w") as f:
-    f.write(json.dumps({"values": stop_list}))
-
 # join with reverse list so it does the loop
 #stop_list = stop_list + list(reversed(stop_list))
 print(stop_list)
