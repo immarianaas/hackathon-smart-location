@@ -1,5 +1,5 @@
 {
-    "id": "public-transport-stop-3",
+    "id": "public-transport-stop-4",
     "type": "PublicTransportStop",
     "location": {
         "type": "geo:json",
