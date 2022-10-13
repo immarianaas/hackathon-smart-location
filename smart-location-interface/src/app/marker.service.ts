@@ -39,7 +39,7 @@ export class MarkerService {
   private bikeHireDockingStations: BikeHireDockingStationEntity[];
   private publicTransportStops: PublicTransportStopEntity[];
 
-  private setupComplete: boolean = false;
+  private vehicleMarkers : any[];
 
   constructor(
     private entityService: EntityService
@@ -50,6 +50,7 @@ export class MarkerService {
     this.bikeLanes = [];
     this.bikeHireDockingStations = [];
     this.publicTransportStops = [];
+    this.vehicleMarkers = [];
   }
 
   addAllMarkers(map: any): void {
@@ -60,11 +61,11 @@ export class MarkerService {
           // verify 'entities' type
           switch (e.type) {
             case "Beach":
-              e.iconPath = this.selectBeachIcon(e)
+              // icon is set later
               this.beaches.push(<BeachEntity>e);
               break;
             case "Garden":
-              e.iconPath = this.selectGardenIcon(e)
+              // icon is set later
               this.gardens.push(<GardenEntity>e);
               break;
             case "Vehicle":
@@ -104,6 +105,10 @@ export class MarkerService {
     arr.forEach(e => {
       this.evaluateAccessibility(e);
 
+      // accessibility needs to be set before chosing the marker colour
+      if ( e.type == "Beach" ) e.iconPath = this.selectBeachIcon(e);
+      if ( e.type == "Garden" ) e.iconPath = this.selectGardenIcon(e);
+      
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
@@ -152,15 +157,12 @@ export class MarkerService {
       return icons.gardenPinRed
   }
 
-  vehicleMarkers : any[] = [];
   // helper
   private addMovingPointMarkers(
     arr: BeachEntity[] | GardenEntity[] | BikeHireDockingStationEntity[] | PublicTransportStopEntity[] | VehicleEntity[],
     map: any
   ) {
     arr.forEach(e => {
-      this.evaluateAccessibility(e);
-
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
@@ -257,7 +259,7 @@ export class MarkerService {
 
   setupVehicleUpdates(map: any): void {
 
-    interval(2500)
+    interval(1000)
       .subscribe(() => {
         this.entityService.getVehicleEntities().subscribe({
           next: (vehicles) => {
