@@ -16,6 +16,8 @@ const bikeLaneStroke = 5;
 const bikeLaneColor = '#50C878'
 const bikeLanePointLength = 50;
 const bikeLanePointColor = '#088F8F'
+
+
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
 const shadowUrl = 'assets/marker-shadow.png';
@@ -43,10 +45,19 @@ export class MarkerService {
   private bikeHireDockingStations: BikeHireDockingStationEntity[];
   private publicTransportStops: PublicTransportStopEntity[];
 
-  private vehicleMarkers : any[];
+  private vehicleMarkers: any[];
+
+
+
+  private markerClusters: any;
+
+
+  static idEntityMap = new Map<string, Entity>();
+
+
 
   constructor(
-    private entityService: EntityService
+    private entityService: EntityService,
   ) {
     this.beaches = [];
     this.gardens = [];
@@ -55,13 +66,76 @@ export class MarkerService {
     this.bikeHireDockingStations = [];
     this.publicTransportStops = [];
     this.vehicleMarkers = [];
+
+
+    this.markerClusters = L.markerClusterGroup({
+      zoomToBoundsOnClick: true,
+      iconCreateFunction: function (cluster) {
+
+        const markers: any[] = cluster.getAllChildMarkers();
+
+        var nGardens = 0;
+        var nBeaches = 0;
+        var nBusStops = 0;
+        var nBikeHireDockingStation = 0;
+
+        var sumAccessibility = 0;
+        var count = 0;
+        markers.forEach((c) => {
+          if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Beach') {
+            ++nBeaches;  
+            ++count;
+            sumAccessibility += (MarkerService.idEntityMap.get(c.options.alt)?.accessibility == undefined)
+            ? 0
+            : <number>MarkerService.idEntityMap.get(c.options.alt)?.accessibility;
+          }
+          else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'Garden') {
+            ++nGardens;
+            ++count;
+            sumAccessibility += (MarkerService.idEntityMap.get(c.options.alt)?.accessibility == undefined)
+            ? 0
+            : <number>MarkerService.idEntityMap.get(c.options.alt)?.accessibility;
+          }
+          else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'PublicTransportStop') {
+            ++nBusStops;
+          }
+          else if (MarkerService.idEntityMap.get(c.options.alt)?.type == 'BikeHireDockingStation') {
+            ++nBikeHireDockingStation;
+          }
+
+
+        });
+
+        console.error("HELPPP", sumAccessibility / count);
+        const iconstr = '<fa-icon icon="coffee"></fa-icon>'
+
+        const gardenStr = `<div><span class="badge badge-light">` + nGardens + `</span> gardens </div>`
+        const beachesStr = `<div><span class="badge badge-light">` + nBeaches + `</span> beaches </div>`
+        const busStopStr = `<div><span class="badge badge-light">` + nBusStops + `</span> public transport stops </div>`
+        const bikeHiringStr = `<div><span class="badge badge-light">` + nBikeHireDockingStation + `</span> bike hire docking station </div>`
+
+        const str = ((nGardens > 0) ? gardenStr : '')
+          + ((nBeaches > 0) ? beachesStr : '')
+          + ((nBusStops > 0) ? busStopStr : '')
+          + ((nBikeHireDockingStation > 0) ? bikeHiringStr : '');
+
+        // return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
+        return L.divIcon({
+          // html: '<div>' + iconstr + '</div>' + '<button type="button" class="btn btn-primary" style="border-radius: 30%;">' + str + '</button>',
+          // html: '<div class="cluster-icon-html">     ' + str + '</div>',
+          html: '<div class="cluster-icon-html">     ' + str + '</div>',
+          iconAnchor: [5, 5],
+          className: 'cluster-icon'
+        });
+      },
+    });
   }
 
   addAllMarkers(map: any): void {
     this.entityService.getAllEntities().subscribe({
       next: (entities) => {
         entities.forEach(e => {
-
+          MarkerService.idEntityMap.set(e.id, e);
           // verify 'entities' type
           switch (e.type) {
             case "Beach":
@@ -110,17 +184,17 @@ export class MarkerService {
       this.evaluateAccessibility(e);
 
       // accessibility needs to be set before chosing the marker colour
-      if ( e.type == "Beach" ) e.iconPath = this.selectBeachIcon(e);
-      if ( e.type == "Garden" ) e.iconPath = this.selectGardenIcon(e);
-      
+      if (e.type == "Beach") e.iconPath = this.selectBeachIcon(e);
+      if (e.type == "Garden") e.iconPath = this.selectGardenIcon(e);
+
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
       let currentIcon;
-      if(e.iconPath == ''){
+      if (e.iconPath == '') {
         currentIcon = iconDefault
       }
-      else{
+      else {
         currentIcon = L.icon({
           iconUrl: e.iconPath,
           //TODO:Should also differ
@@ -129,36 +203,39 @@ export class MarkerService {
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
           shadowSize: [41, 41]
-      });
+        });
       }
 
-      const marker = L.marker([lat, lon],{icon: currentIcon});
-      marker.addTo(map);
+      // const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.type });
+      const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.id });
+
+      this.markerClusters.addLayer(marker);
+      // marker.addTo(map);
     });
   }
 
-  selectBeachIcon(e: Entity){
+  selectBeachIcon(e: Entity) {
     //helper
     const value = e.accessibility
-      if(value == ACCESSIBILITY.HIGH){
-        return icons.beachPinGreen
-      }
-      else if(value == ACCESSIBILITY.MEDIUM){
-        return icons.beachPinYellow
-      }
-      return icons.beachPinRed
+    if (value == ACCESSIBILITY.HIGH) {
+      return icons.beachPinGreen
+    }
+    else if (value == ACCESSIBILITY.MEDIUM) {
+      return icons.beachPinYellow
+    }
+    return icons.beachPinRed
   }
 
-  selectGardenIcon(e: Entity){
+  selectGardenIcon(e: Entity) {
     //helper
     const value = e.accessibility
-      if(value == ACCESSIBILITY.HIGH){
-        return icons.gardenPinGreen
-      }
-      else if(value == ACCESSIBILITY.MEDIUM){
-        return icons.gardenPinYellow
-      }
-      return icons.gardenPinRed
+    if (value == ACCESSIBILITY.HIGH) {
+      return icons.gardenPinGreen
+    }
+    else if (value == ACCESSIBILITY.MEDIUM) {
+      return icons.gardenPinYellow
+    }
+    return icons.gardenPinRed
   }
 
   // helper
@@ -170,8 +247,19 @@ export class MarkerService {
       const lat = e.location.value.coordinates[0];
       const lon = e.location.value.coordinates[1];
       console.log("placing marker on coordinates (", lat, ", ", lon, ")");
-      const marker = L.marker([lat, lon]);
-      this.vehicleMarkers.push( marker );
+
+      const currentIcon = L.icon({
+        iconUrl: icons.busPin,
+        iconSize: [30, 50],
+        iconAnchor: [15, 30],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+        shadowSize: [41, 41]
+      });
+
+      // const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.type });
+      const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.id });
+      this.vehicleMarkers.push(marker);
       marker.addTo(map);
     });
   }
@@ -235,6 +323,7 @@ export class MarkerService {
 
     this.addLineMarkers(this.bikeLanes, map); // TODO
 
+    map.addLayer(this.markerClusters);
     this.setupVehicleUpdates(map);
 
   }
@@ -287,7 +376,7 @@ export class MarkerService {
             this.vehicles = [];
 
             this.vehicleMarkers.forEach((marker) => {
-              marker.removeFrom( map );
+              marker.removeFrom(map);
             });
 
             vehicles.forEach(v => {

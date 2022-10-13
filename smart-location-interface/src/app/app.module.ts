@@ -7,6 +7,9 @@ import { MapComponent } from './map/map.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { EntityService } from './entity.service';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +19,9 @@ import { EntityService } from './entity.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    LeafletMarkerClusterModule,
+    FontAwesomeModule
   ],
   providers: [
     EntityService
