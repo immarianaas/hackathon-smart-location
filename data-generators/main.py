@@ -6,7 +6,7 @@ import math
 # constants
 TIME_UPDATE = 0.5  # s
 ENTITY_ID = "vehicle-1"
-VELOCITY = 12  # km/h
+VELOCITY = 6  # km/h
 R = 6371e3  # metres
 DISTANCE_TRAVELLED = VELOCITY / 1000 * 3600 * TIME_UPDATE
 
