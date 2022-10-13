@@ -145,10 +145,14 @@ export class MarkerService {
               this.beaches.push(<BeachEntity>e);
               break;
             case "Garden":
+              // set popup content
+              e.popupContent = this.setPopupGarden(e as GardenEntity)
               // icon is set later
               this.gardens.push(<GardenEntity>e);
               break;
             case "Vehicle":
+              // set popup content
+              e.popupContent = this.setPopupVehicle(e as VehicleEntity)
               e.iconPath = icons.busPin
               this.vehicles.push(<VehicleEntity>e);
               break;
@@ -157,10 +161,14 @@ export class MarkerService {
               this.bikeLanes.push(<BikeLaneEntity>e);
               break;
             case "BikeHireDockingStation":
+              // set popup content
+              e.popupContent = this.setPopupBikeHireDockingStation(e as BikeHireDockingStationEntity)
               e.iconPath = icons.bikeHireDockingStationPin
               this.bikeHireDockingStations.push(<BikeHireDockingStationEntity>e);
               break;
             case "PublicTransportStop":
+              // set popup content
+              e.popupContent = this.setPopupPublicTransportStop(e as PublicTransportStopEntity)
               e.iconPath = icons.busStopPin
               this.publicTransportStops.push(<PublicTransportStopEntity>e);
               break;
@@ -212,7 +220,7 @@ export class MarkerService {
       const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.id });
 
       //Popup
-      marker.bindPopup(e.popupContent).openPopup();
+      marker.bindTooltip(e.popupContent).openPopup();
 
       this.markerClusters.addLayer(marker);
       // marker.addTo(map);
@@ -227,6 +235,42 @@ export class MarkerService {
     <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
     <div>Type of Beach:${beachType}</div>
     <div>Occupation Rate:${occupationRate}</div>
+    `
+  }
+
+  setPopupGarden(e: GardenEntity) {
+    let name = e.name.value == null ? '' : e.name.value
+    return `
+    <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
+    `
+  }
+
+  setPopupBikeHireDockingStation(e: BikeHireDockingStationEntity) {
+    let availableBikeNumber = e.availableBikeNumber.value == null ? '' : e.availableBikeNumber.value
+    let freeSlotNumber = e.freeSlotNumber.value == null ? '' : e.freeSlotNumber.value
+    let totalSlotNumber = e.totalSlotNumber.value == null ? '' : e.totalSlotNumber.value
+    return `
+    <div>Number of Total Available Bikes:${availableBikeNumber}</div>
+    <div>Number of Free Slots:${freeSlotNumber}</div>
+    <div>Number of Total Slots:${totalSlotNumber}</div>
+    `
+  }
+
+  setPopupPublicTransportStop(e: PublicTransportStopEntity) {
+    let name = e.name.value == null ? '' : e.name.value
+    let peopleCount = e.peopleCount.value == null ? '' : e.peopleCount.value
+    return `
+    <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
+    <div>Number of People:${peopleCount}</div>
+    `
+  }
+
+  setPopupVehicle(e: VehicleEntity) {
+    let category = e.category.value == null ? '' : e.category.value
+    let vehicleType = e.vehicleType.value == null ? '' : e.vehicleType.value
+    return `
+    <div>Category:${category}</div>
+    <div>Type of Vehicle:${vehicleType}</div>
     `
   }
 
@@ -272,9 +316,13 @@ export class MarkerService {
         tooltipAnchor: [16, -28],
         shadowSize: [41, 41]
       });
+      // set popup content
+      e.popupContent = this.setPopupVehicle(e as VehicleEntity)
 
       // const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.type });
       const marker = L.marker([lat, lon], { icon: currentIcon, alt: e.id });
+      //Popup
+      marker.bindTooltip(e.popupContent).openPopup();
       this.vehicleMarkers.push(marker);
       marker.addTo(map);
     });
