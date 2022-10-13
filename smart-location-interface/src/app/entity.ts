@@ -5,6 +5,7 @@ export interface Entity {
     iconPath: string;
 
     accessibility?: ACCESSIBILITY;
+    shadowPath: string;
 }
 
 export enum EntityType {
