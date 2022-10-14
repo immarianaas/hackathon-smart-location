@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-12",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.8616596,
+                -8.6190694
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "CTT Ovar",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}
