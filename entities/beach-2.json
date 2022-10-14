@@ -1,0 +1,77 @@
+{
+    "id": "beach-2",
+    "type": "Beach",
+    "accessType": {
+        "type": "StructuredValue",
+        "value": [
+            "privateVehicle",
+            "onFoot",
+            "publicTransport"
+        ],
+        "metadata": {}
+    },
+    "address": {
+        "type": "PostalAddress",
+        "value": {
+            "addressCountry": "PT",
+            "addressLocality": "Aveiro"
+        },
+        "metadata": {}
+    },
+    "beachType": {
+        "type": "StructuredValue",
+        "value": [
+            "whiteSand",
+            "urban"
+        ],
+        "metadata": {}
+    },
+    "description": {
+        "type": "Text",
+        "value": "a praia....",
+        "metadata": {}
+    },
+    "facilities": {
+        "type": "StructuredValue",
+        "value": [
+            "promenade",
+            "showers",
+            "cleaningServices",
+            "lifeGuard"
+        ],
+        "metadata": {}
+    },
+    "length": {
+        "type": "Number",
+        "value": 450,
+        "metadata": {}
+    },
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "type": "Point",
+            "coordinates": [ 40.6297, -8.7503 ]
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Praia da Costa Nova",
+        "metadata": {}
+    },
+    "occupationRate": {
+        "type": "Text",
+        "value": "high",
+        "metadata": {}
+    },
+    "source": {
+        "type": "Text",
+        "value": "",
+        "metadata": {}
+    },
+    "width": {
+        "type": "Number",
+        "value": 51,
+        "metadata": {}
+    }
+}

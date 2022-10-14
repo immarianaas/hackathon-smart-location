@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-10",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.6429420,
+                -8.7456116
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "FAROL",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 1,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}

@@ -1,0 +1,21 @@
+
+{
+    "id": "garden-5",
+    "type": "Garden",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.6511,
+                -8.6246
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Parque Aventura de Fonte do Meio",
+        "metadata": {}
+    }
+}
