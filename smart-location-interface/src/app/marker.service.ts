@@ -187,7 +187,7 @@ export class MarkerService {
             case "PublicTransportStop":
               // set popup content
               e.popupContent = this.setPopupPublicTransportStop(e as PublicTransportStopEntity)
-              e.shadowPath = ((<PublicTransportStopEntity>e).peopleCount.value < 4) ? icons.oneIcon : ((<PublicTransportStopEntity>e).peopleCount.value < 9) ? icons.twoIcon : icons.oneIcon;
+              e.shadowPath = ((<PublicTransportStopEntity>e).peopleCount.value < 4) ? icons.oneIcon : ((<PublicTransportStopEntity>e).peopleCount.value < 9) ? icons.twoIcon : icons.threeIcon;
               e.iconPath = icons.busStopPin
               this.publicTransportStops.push(<PublicTransportStopEntity>e);
               break;
