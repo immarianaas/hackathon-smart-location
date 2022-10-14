@@ -1,0 +1,20 @@
+{
+    "id": "garden-8",
+    "type": "Garden",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.63599,
+                -8.71286
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Parque da Rua da Saudade",
+        "metadata": {}
+    }
+}
