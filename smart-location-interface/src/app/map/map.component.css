@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    margin: 30px;
+    margin: 37px;
   }
   
   .map-frame {
@@ -20,4 +20,18 @@
   .round {
     border-radius: 40%;
     background-color: red;
+  }
+
+  .square {
+    width: 30px; 
+    height: 30px; 
+    display: inline-block;
+    border: 1px solid;
+    margin-right: 10px;
+    margin: 2px;
+
+  }
+
+  .legend{
+    bottom: 35px
   }

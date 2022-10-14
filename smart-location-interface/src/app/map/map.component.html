@@ -1,5 +1,103 @@
-<div class="map-container">
+
+<div class="map-container" [style.bottom]="!showLegend ? '0' : '195px'">
     <div class="map-frame">
         <div id="map"></div>
     </div>
 </div>
+
+
+<button *ngIf="!showLegend" type="button" class="btn btn-outline-dark container fixed-bottom"
+    (click)="showLegend=true">Show Legend</button>
+
+
+
+<div *ngIf="showLegend" class="container fixed-bottom legend">
+    <div class="row">
+        <div class="col-4">
+            <img src="../../assets/busStopIcon.svg"
+                style="width: 30px; height: 30px;margin: 5px; display: inline-block;" />
+            <span>Public Transport Stop</span>
+        </div>
+        <div class="col-4">
+            <img src="../../assets/bikeHireDockingStationIcon.svg" style="width: 30px; height: 30px;margin: 5px;" />
+            <span>Bike Hire Docking Station</span>
+        </div>
+        <div class="col-4">
+            <img src="../../assets/busPin.svg" style="width: 30px; height: 30px;margin: 5px;" />
+            <span>Bus</span>
+        </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <div class="row">
+        <div class="col-3">
+            <div class="row">
+                <img src="../../assets/gardenIcon.svg" style="width: 30px; height: 30px;margin: 5px;" />
+                <span>Garden</span>
+            </div>
+            <div class="row">
+                <img src="../../assets/beachIcon.svg" style="width: 30px; height: 30px;margin: 5px;" />
+                <span>Beach</span>
+            </div>
+            <div class="row">
+                <img src="../../assets/bikeLaneIcon.svg" style="width: 30px; height: 30px;margin: 5px;" />
+                <span>Bike Lane</span>
+            </div>
+        </div>
+
+
+        <div class="col-3">
+            <div class="row">
+                <div class="square" style="background: #e84258;"></div>
+                <span class="">Low Accessibility</span>
+            </div>
+            <div class="row">
+                <div class="square" style="background: #fee191;"></div>
+                <span>Medium Accessibility</span>
+            </div>
+            <div class="row">
+                <div class="square" style="background: #b0d8a4; "></div>
+                <span>High Accessibility</span>
+            </div>
+        </div>
+
+
+        <div class="col-3">
+            <div class="row">
+                <img src="../../assets/oneMiniIcon.svg" style="width: 30px; height: 30px;margin: 2px;" />
+                <span>Not crowded</span>
+            </div>
+            <div class="row">
+                <img src="../../assets/twoMiniIcon.svg" style="width: 30px; height: 30px;margin: 2px;" />
+                <span>More or less crowded</span>
+            </div>
+            <div class="row">
+                <img src="../../assets/threeMiniIcon.svg" style="width: 30px; height: 30px;margin: 2px;" />
+                <span>Very crowded</span>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="row">
+                <img src="../../assets/bikeLaneRedIcon.svg"
+                    style="width: 30px; height: 30px;margin: 2px; margin-right: 8px;" />
+                <span>Not crowded</span>
+            </div>
+            <div class="row">
+                <img src="../../assets/bikeLaneYellowIcon.svg"
+                    style="width: 30px; height: 30px;margin: 2px;margin-right: 8px;" />
+                <span>More or less crowded</span>
+            </div>
+            <div class="row">
+                <img src="../../assets/bikeLaneGreenIcon.svg"
+                    style="width: 30px; height: 30px;margin: 2px;margin-right: 8px;" />
+                <span>Very crowded</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <button *ngIf="showLegend" type="button" class="btn btn-outline-dark container fixed-bottom" 
+                (click)="showLegend=true" (click)="showLegend=false">Hide Legend</button>
+        </div>
+    </div>

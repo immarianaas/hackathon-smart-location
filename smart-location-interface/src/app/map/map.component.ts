@@ -17,6 +17,7 @@ import { MarkerService } from '../marker.service';
 })
 export class MapComponent implements OnInit, AfterViewInit {
 
+  showLegend: boolean = false;
 
   constructor(
     private entityService: EntityService,
