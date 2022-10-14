@@ -5,8 +5,7 @@
         "type": "geo:json",
         "value": {
             "coordinates": [
-                40.636789772657025,
-                -8.653240176506381
+                40.636361, -8.653112
             ],
             "type": "Point"
         },
@@ -14,7 +13,7 @@
     },
     "name": {
         "type": "Text",
-        "value": "Parque da Macaca",
+        "value": "Parque Infante Dom Pedro",
         "metadata": {}
     }
 }
