@@ -1,0 +1,20 @@
+{
+    "id": "garden-7",
+    "type": "Garden",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.64151,
+                -8.72938
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Jardim Oudinot",
+        "metadata": {}
+    }
+}
