@@ -1,0 +1,20 @@
+{
+    "id": "garden-4",
+    "type": "Garden",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.63367,
+                -8.65071
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Parque do Amor",
+        "metadata": {}
+    }
+}

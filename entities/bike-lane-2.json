@@ -1,0 +1,26 @@
+{
+    "id": "bike-lane-2",
+    "type": "BikeLane",
+    "laneOccupancy": {
+        "type": "Number",
+        "value": 2,
+        "metadata": {}
+    },
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                [
+                    40.6297,
+                    -8.7503
+                ],
+                [
+                    40.64286,
+                    -8.73659
+                ]
+            ],
+            "type": "MultiPoint"
+        },
+        "metadata": {}
+    }
+}
