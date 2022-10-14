@@ -19,7 +19,7 @@
     },
     "peopleCount": {
         "type": "Number",
-        "value": 0,
+        "value": 20,
         "metadata": {}
     },
     "transportationType": {
