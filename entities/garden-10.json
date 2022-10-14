@@ -1,0 +1,20 @@
+{
+    "id": "garden-10",
+    "type": "Garden",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.86379,
+                -8.62128
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Parque Urbano de Ovar",
+        "metadata": {}
+    }
+}

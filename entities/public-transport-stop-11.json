@@ -1,0 +1,30 @@
+{
+    "id": "public-transport-stop-11",
+    "type": "PublicTransportStop",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.86468,
+                -8.61728
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Estação Ferroviária de Ovar",
+        "metadata": {}
+    },
+    "peopleCount": {
+        "type": "Number",
+        "value": 3,
+        "metadata": {}
+    },
+    "transportationType": {
+        "type": "Number",
+        "value": 0,
+        "metadata": {}
+    }
+}

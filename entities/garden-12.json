@@ -1,0 +1,20 @@
+{
+    "id": "garden-12",
+    "type": "Garden",
+    "location": {
+        "type": "geo:json",
+        "value": {
+            "coordinates": [
+                40.85995,
+                -8.62818
+            ],
+            "type": "Point"
+        },
+        "metadata": {}
+    },
+    "name": {
+        "type": "Text",
+        "value": "Parque dos Campos",
+        "metadata": {}
+    }
+}
