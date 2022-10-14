@@ -154,7 +154,7 @@ export class MarkerService {
             case "Beach":
               // set popup content
               e.popupContent = this.setPopupBeach(e as BeachEntity)
-              e.shadowPath = ((<BeachEntity>e).occupationRate.value == "high") ? icons.threeIcon : ((<BeachEntity>e).occupationRate.value == "medium") ? icons.twoIcon : icons.oneIcon;
+              e.shadowPath = ((<BeachEntity>e).occupationRate.value == "high") ? icons.threeIcon : ((<BeachEntity>e).occupationRate.value == "medium") ? icons.twoIcon : icons.threeIcon;
               this.beaches.push(<BeachEntity>e);
               break;
             case "Garden":
@@ -175,6 +175,7 @@ export class MarkerService {
             case "BikeLane":
               e.shadowPath = ""
               e.iconPath = ""
+              e.popupContent = this.setPopupBikeLane(e as BikeLaneEntity)
               this.bikeLanes.push(<BikeLaneEntity>e);
               break;
             case "BikeHireDockingStation":
@@ -228,12 +229,12 @@ export class MarkerService {
         currentIcon = L.icon({
           iconUrl: e.iconPath,
           shadowUrl: e.shadowPath,// icons.oneIcon ,
-          shadowAnchor: [0,25],
-          iconSize: [30, 45],
+          shadowAnchor: [-15,12],
+          iconSize: [40, 55],
           iconAnchor: [12, 41],
           popupAnchor: [1, -34],
           tooltipAnchor: [16, -28],
-          shadowSize: [41, 41]
+          shadowSize: [30, 20]
         });
       }
 
@@ -249,9 +250,9 @@ export class MarkerService {
   }
 
   setPopupBeach(e: BeachEntity) {
-    let beachType = e.beachType[0] == null ? '' : e.beachType[0].value
-    let name = e.name.value == null ? '' : e.name.value
-    let occupationRate = e.occupationRate.value == null ? '' : e.occupationRate.value
+    let beachType = e.beachType[0] == null ? '--' : e.beachType[0].value
+    let name = e.name.value == null ? '--' : e.name.value
+    let occupationRate = e.occupationRate.value == null ? '--' : e.occupationRate.value
     return `
     <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
     <div>Type of Beach:${beachType}</div>
@@ -267,31 +268,43 @@ export class MarkerService {
   }
 
   setPopupBikeHireDockingStation(e: BikeHireDockingStationEntity) {
-    let availableBikeNumber = e.availableBikeNumber.value == null ? '' : e.availableBikeNumber.value
-    let freeSlotNumber = e.freeSlotNumber.value == null ? '' : e.freeSlotNumber.value
-    let totalSlotNumber = e.totalSlotNumber.value == null ? '' : e.totalSlotNumber.value
+    const name = "Bike Hiring Docking Station"
+    let availableBikeNumber = e.availableBikeNumber.value == null ? '--' : e.availableBikeNumber.value
+    let freeSlotNumber = e.freeSlotNumber.value == null ? '--' : e.freeSlotNumber.value
+    let totalSlotNumber = e.totalSlotNumber.value == null ? '--' : e.totalSlotNumber.value
     return `
-    <div>Number of Total Available Bikes:${availableBikeNumber}</div>
-    <div>Number of Free Slots:${freeSlotNumber}</div>
-    <div>Number of Total Slots:${totalSlotNumber}</div>
+    <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
+    <div>Number of Total Available Bikes: ${availableBikeNumber}</div>
+    <div>Number of Free Slots: ${freeSlotNumber}</div>
+    <div>Number of Total Slots: ${totalSlotNumber}</div>
     `
   }
 
   setPopupPublicTransportStop(e: PublicTransportStopEntity) {
-    let name = e.name.value == null ? '' : e.name.value
-    let peopleCount = e.peopleCount.value == null ? '' : e.peopleCount.value
+    let name = e.name.value == null ? '--' : e.name.value
+    let peopleCount = e.peopleCount.value == null ? '--' : e.peopleCount.value
     return `
     <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
-    <div>Number of People:${peopleCount}</div>
+    <div>Number of People: ${peopleCount}</div>
+    `
+  }
+
+  setPopupBikeLane(e: BikeLaneEntity) {
+    const name = "Bike Lane"
+    let occupancy = e.laneOccupancy.value == null ? '--' : e.laneOccupancy.value;
+
+    return `
+    <div style="font-family: 'Source Sans Pro', sans-serif;font-size: 1.2em;font-weight: bold;">${name}</div>
+    <div>Cyclists on the lane: ${occupancy}</div>
     `
   }
 
   setPopupVehicle(e: VehicleEntity) {
-    let category = e.category.value == null ? '' : e.category.value
-    let vehicleType = e.vehicleType.value == null ? '' : e.vehicleType.value
+    let category = e.category.value == null ? '--' : e.category.value
+    let vehicleType = e.vehicleType.value == null ? '--' : e.vehicleType.value
     return `
-    <div>Category:${category}</div>
-    <div>Type of Vehicle:${vehicleType}</div>
+    <div>Category: ${category}</div>
+    <div>Type of Vehicle: ${vehicleType}</div>
     `
   }
 
@@ -441,8 +454,11 @@ export class MarkerService {
       else laneColor = bikeLaneColorGreen
       
       const path = L.polyline(pointsArr, {color: laneColor, weight: bikeLaneStroke})
+
+      path.bindTooltip(e.popupContent).openPopup();
       //path.addTo(map);
       this.markerClusters.addLayer(path);
+
 
       startPoint.addTo(map);
       endPoint.addTo(map);

@@ -50,7 +50,8 @@
         "type": "geo:json",
         "value": {
             "type": "Point",
-            "coordinates": [ 40.6297, -8.7503 ]
+            "coordinates": [ 
+                40.596750, -8.757002 ]
         },
         "metadata": {}
     },

@@ -21,3 +21,7 @@ export const gardenIcon = "../assets/gardenIcon.svg"
 export const oneIcon = "../assets/oneMiniIcon.svg"
 export const twoIcon = "../assets/twoMiniIcon.svg"
 export const threeIcon = "../assets/threeMiniIcon.svg"
+
+export const oneIconPeople = "../assets/peopleIcon1.svg"
+export const twoIconPeople = "../assets/peopleIcon2.svg"
+export const threeIconPeople = "../assets/peopleIcon3.svg"
