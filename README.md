@@ -31,7 +31,7 @@
 
 
   <p align="center">
-    :trophy: Winnining solution for the #4 challenge of the Aveiro Tech City Hackathon 2022 :trophy:
+    :sparkles::trophy: Winnining solution for the #4 challenge of the Aveiro Tech City Hackathon 2022 :trophy::sparkles:
     <br />
     Smart Location Interface - powered by <a href="https://wavecom.pt/">Wavecom</a>
   </p>
@@ -105,7 +105,7 @@ These next steps will guide you to execute the application in your machine.
 
 ### Prerequisites
 
-You should have `Docker` and `Docker Compose` installed. Port 1026 should be free? on the machine. `Angular CLI` and `Python 3` should also be installed
+You should have `docker` and `docker compose` installed. Port 1026 should be free on the machine. `Angular CLI` and `Python 3` should also be installed.
 
 ### Setup
 
@@ -137,7 +137,7 @@ Therefore, simply by looking at the colour of those two markers, we immediately 
 
 <div align="center" >  
   <table><tr><td>
-    <img src="print1.png" width="750" height="421" />
+    <img src="images/print1.png" width="750" height="421" />
   </td></tr></table>
 </div>
 
@@ -146,7 +146,7 @@ Although not very noticeable, there is a bus on the map section shown above. If 
 
 <div align="center">
   <table><tr><td>
-    <img src="gif-1.gif" width="750" height="421">
+    <img src="images/gif-1.gif" width="750" height="421">
   </td></tr></table>
   
 </div>
@@ -155,7 +155,7 @@ Although not very noticeable, there is a bus on the map section shown above. If 
 <div>
   <br />
   <table align="right"><tr><td>
-    <img  src="print2.png" width="500" height="281">
+    <img  src="images/print2.png" width="500" height="281">
   </td></tr></table>
 </div>
 
@@ -169,7 +169,7 @@ The lines represent bike lanes, and their colours reflect their congestion.
 
 <div align="center">
   <table><tr><td> 
-    <img src="print5.png" width="750" height="421">
+    <img src="images/print5.png" width="750" height="421">
   </td></tr></table>
 </div>
 
@@ -180,7 +180,7 @@ This enables for other types of users to take advantage of this product. For exa
 
 <div align="center">
   <table><tr><td>
-    <img src="gif-2.gif" width="750" height="421">
+    <img src="images/gif-2.gif" width="750" height="421">
   </td></tr></table>
 </div>
 
