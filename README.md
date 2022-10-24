@@ -76,7 +76,7 @@
 ## About The Project
 We were challenged to create a web appplication that enabled real-time visualisaton of geo-referenced entities. The entities are described using the Data Models [here](https://github.com/smart-data-models/SmartCities), as a way to ensure that our solution could be easily adopted and extended to a real world situation.
 
-The project was devised with a more conscious demography in mind, people who seek environmentally friendly mobility solutions. The goal we proposed to ourselves was to create something that would be useful for someone who wanted to leave the car behind and take advantage of the public transport network, as well as other infrastructures, such as bicycle lanes. On the other hand, it should also respond to the needs of those who wish to evaluate the development of an area in terms of green mobility.
+The project was devised with a more conscious demography in mind, people who seek environmentally friendly mobility solutions. The goal we proposed to ourselves was to create something that would be useful for someone who wanted to leave the car behind and take advantage of the public transport network, as well as other infrastructure, such as bicycle lanes. On the other hand, it should also respond to the needs of those who wish to assess the development of an area in terms of green mobility.
 
 Our goal was accomplished through the use of a variety of information visualisation techniques. These include colour coding, symbols that are not only familiar, but also standard, and information chunking.The final result succeeds in providing an intuitive interface, where users can access the most relevant information effortlessly.
 
@@ -142,7 +142,7 @@ Therefore, simply by looking at the colour of those two markers, we immediately 
 </div>
 
 
-Although not very noticeable, there is a bus on the map section shown above. If its position is updated in real time, we can see it moving through the city in the application. The GIF below shows this, albeit accelerated.
+Although not very noticeable, there is a bus on the map section shown above. When its position is updated in real time, we can see it moving through the city in the application. The GIF below shows this, albeit accelerated.
 
 <div align="center">
   <table><tr><td>
@@ -164,7 +164,7 @@ Furthermore, we can obtain even more information by hovering the mouse over the 
 <br />
 
 The colours, briefly mentioned above, are one of the key aspects of our solution. It helps the user to make informed decisions. For example, the next image depicts a view that might help someone decide which beach they would prefer to go. 
-The one with the yellow marker might not be the best aternative if they want to travel in an ecological way.
+The one with the yellow marker might not be the best alternative if they want to travel in an ecological way.
 The lines represent bike lanes, and their colours reflect their congestion.
 
 <div align="center">
