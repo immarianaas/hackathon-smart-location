@@ -31,7 +31,7 @@
 
 
   <p align="center">
-    :sparkles::trophy: Winnining solution for the #4 challenge of the Aveiro Tech City Hackathon 2022 :trophy::sparkles:
+    :sparkles::trophy: Winning solution for the #4 challenge of the Aveiro Tech City Hackathon 2022 :trophy::sparkles:
     <br />
     Smart Location Interface - powered by <a href="https://wavecom.pt/">Wavecom</a>
   </p>
