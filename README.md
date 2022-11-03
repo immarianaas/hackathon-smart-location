@@ -35,7 +35,7 @@
     <br />
     Smart Location Interface - powered by <a href="https://wavecom.pt/">Wavecom</a>
   </p>
-  <img src="https://scontent.fopo4-2.fna.fbcdn.net/v/t39.30808-6/311620104_823209652431354_6478241204351103994_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=730e14&_nc_ohc=_520el0IZQsAX8ugLnF&_nc_ht=scontent.fopo4-2.fna&oh=00_AT8YS5IgeVHopUle3ubUuw54AtFljQciYP084fyfysMFAA&oe=6359E1E1" width="500" height="333">
+  <img src="https://live.staticflickr.com/65535/52429253783_b4953d7d27_c.jpg" width="500" height="333">
   <p style="margin-top:-8px; font-size:13px">picture by <a href="https://www.aveirotechcity.pt/">Aveiro Tech City</a></p>
 
   <p align="center">
